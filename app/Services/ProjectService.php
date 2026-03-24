@@ -32,17 +32,14 @@ class ProjectService
     public function createProject(array $data): Project
     {
         try {
-            DB::beginTransaction();
+            return DB::transaction(function () use ($data) {
+                $project = Project::create($data);
 
-            $project = Project::create($data);
+                Log::info('Project created', ['project_id' => $project->id]);
 
-            DB::commit();
-
-            Log::info('Project created', ['project_id' => $project->id]);
-
-            return $project;
+                return $project;
+            });
         } catch (\Throwable $e) {
-            DB::rollBack();
             Log::error('ProjectService::createProject failed', [
                 'data'  => $data,
                 'error' => $e->getMessage(),
@@ -58,17 +55,14 @@ class ProjectService
     public function updateProject(Project $project, array $data): Project
     {
         try {
-            DB::beginTransaction();
+            return DB::transaction(function () use ($project, $data) {
+                $project->update($data);
 
-            $project->update($data);
+                Log::info('Project updated', ['project_id' => $project->id]);
 
-            DB::commit();
-
-            Log::info('Project updated', ['project_id' => $project->id]);
-
-            return $project->fresh();
+                return $project->fresh();
+            });
         } catch (\Throwable $e) {
-            DB::rollBack();
             Log::error('ProjectService::updateProject failed', [
                 'project_id' => $project->id,
                 'error'      => $e->getMessage(),
@@ -84,17 +78,14 @@ class ProjectService
     public function deleteProject(Project $project): bool
     {
         try {
-            DB::beginTransaction();
+            return DB::transaction(function () use ($project) {
+                $project->delete();
 
-            $project->delete();
+                Log::info('Project deleted', ['project_id' => $project->id]);
 
-            DB::commit();
-
-            Log::info('Project deleted', ['project_id' => $project->id]);
-
-            return true;
+                return true;
+            });
         } catch (\Throwable $e) {
-            DB::rollBack();
             Log::error('ProjectService::deleteProject failed', [
                 'project_id' => $project->id,
                 'error'      => $e->getMessage(),

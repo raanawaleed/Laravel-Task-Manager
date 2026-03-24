@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\TaskUpdated;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class LogTaskUpdated
 {
@@ -21,6 +20,10 @@ class LogTaskUpdated
      */
     public function handle(TaskUpdated $event): void
     {
-        //
+        Log::info('[Event] Task Updated', [
+            'task_id'   => $event->task->id,
+            'task_name' => $event->task->name,
+            'timestamp' => now()->toISOString(),
+        ]);
     }
 }

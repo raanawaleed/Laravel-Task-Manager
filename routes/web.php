@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +20,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Tasks — reorder must be defined before resource to avoid route conflicts
+    Route::post('/tasks/reorder', [TaskController::class, 'reorder'])->name('tasks.reorder');
+    Route::resource('tasks', TaskController::class)->except(['show']);
+
+    // Projects
+    Route::resource('projects', ProjectController::class)->except(['show']);
+});
+
+require __DIR__ . '/auth.php';

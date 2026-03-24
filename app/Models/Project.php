@@ -12,11 +12,7 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description'];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+ƒ
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class)->orderBy('priority');

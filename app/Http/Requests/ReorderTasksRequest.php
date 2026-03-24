@@ -22,7 +22,6 @@ class ReorderTasksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => 'required|exists:projects,id',
             'task_ids'   => ['required', 'array', 'min:1'],
             'task_ids.*' => ['required', 'integer', 'exists:tasks,id'],
         ];

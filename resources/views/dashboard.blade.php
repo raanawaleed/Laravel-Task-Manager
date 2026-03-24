@@ -1,17 +1,44 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('adminlte::page')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1 class="m-0 text-dark">Dashboard</h1>
+@stop
+
+@section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <p class="mb-0">{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-lg-4 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ $tasks->count() }}</h3>
+                    <p>Total Tasks</p>
                 </div>
+                <div class="icon"><i class="fas fa-tasks"></i></div>
+                <a href="{{ route('tasks.index') }}" class="small-box-footer">
+                    View Tasks <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ $projects->count() }}</h3>
+                    <p>Total Projects</p>
+                </div>
+                <div class="icon"><i class="fas fa-project-diagram"></i></div>
+                <a href="{{ route('projects.index') }}" class="small-box-footer">
+                    View Projects <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
         </div>
     </div>
-</x-app-layout>
+@stop

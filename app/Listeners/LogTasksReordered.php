@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\TasksReordered;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class LogTasksReordered
 {
@@ -21,6 +20,9 @@ class LogTasksReordered
      */
     public function handle(TasksReordered $event): void
     {
-        //
+        Log::info('[Event] Tasks Reordered', [
+            'new_order' => $event->taskIds,
+            'timestamp' => now()->toISOString(),
+        ]);
     }
 }

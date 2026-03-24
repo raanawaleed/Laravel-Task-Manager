@@ -17,11 +17,6 @@ class Task extends Model
         'project_id' => 'integer',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\TaskDeleted;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class LogTaskDeleted
 {
@@ -21,6 +20,10 @@ class LogTaskDeleted
      */
     public function handle(TaskDeleted $event): void
     {
-        //
+        Log::info('[Event] Task Deleted', [
+            'task_id'   => $event->taskId,
+            'task_name' => $event->taskName,
+            'timestamp' => now()->toISOString(),
+        ]);
     }
 }
