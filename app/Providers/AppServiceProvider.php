@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->singleton('task.service', function () {
+            return new \App\Services\TaskService();
+        });
     }
 }
